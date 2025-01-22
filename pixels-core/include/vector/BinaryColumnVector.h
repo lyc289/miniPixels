@@ -36,12 +36,15 @@ private:
     float EXTRA_SPACE_FACTOR=1.2;
     int DEFAULT_SIZE = 1024; // for VectorizedRowBatch
     int DEFAULT_BUFFER_SIZE = 16*DEFAULT_SIZE;
+
 public:
+    int buffer_size;
     duckdb::string_t * vector;
     int* start;
     int* lens;
     uint8_t* buffer;
     uint8_t* smallBuffer;
+    int buffer_size;
 
     /**
     * Use this constructor by default. All column vectors
@@ -68,6 +71,5 @@ public:
     void setVal(int elemnetNum, uint8_t* sourceBuf);
     void setVal(int elementNum, uint8_t* sourceBuf, int start, int length);
     void ensureSize(uint64_t size, bool preserveData) override;
-    void initBuffer(int size);
 };
 #endif //PIXELS_BINARYCOLUMNVECTOR_H

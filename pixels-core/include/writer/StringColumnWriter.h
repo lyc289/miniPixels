@@ -52,6 +52,7 @@ private:
     std::shared_ptr<EncodingUtils>  encodingUtils;
     bool dictionaryEncoding;
     int  startOffset=0;
+    void ConvertToUint8PointerArray(duckdb::string_t *stringArray, int length);
 };
 
 #endif // DUCKDB_STRINGCOLUMNWRITER_H

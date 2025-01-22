@@ -24,38 +24,6 @@ void BinaryColumnVector::close() {
 	}
 }
 
-void BinaryColumnVector::initBuffer(int size)
-{
-    nextFree=0;
-    smallBufferNextFree=0;
-    // if buffer is already allocated, keep using it, don't re-allocate
-    if (buffer)
-    {
-        // Free up any previously allocated buffers that are referenced by vector
-        if (bufferAllocationCount > 0)
-        {
-            for (int i = 0; i < length; ++i) 
-            {
-                vector[i] = nullptr;
-            }
-            buffer=smallBuffer;
-        }
-    }
-    else 
-    {
-        // allocate a little extra space to limit need to re-allocate
-        int bufferSize = length * (int) (size * EXTRA_SPACE_FACTOR);
-        if (bufferSize < DEFAULT_BUFFER_SIZE)
-        {
-            bufferSize = DEFAULT_BUFFER_SIZE;
-        }
-        buffer = new uint8_t[bufferSize];
-        memoryUsage += sizeof(uint8_t) * bufferSize;
-        smallBuffer = buffer;
-    }
-    bufferAllocationCount = 0;
-}
-
 void BinaryColumnVector::setRef(int elementNum, uint8_t * const &sourceBuf, int start, int length) 
 {
     if(elementNum >= writeIndex) 
@@ -71,6 +39,10 @@ void BinaryColumnVector::setVal(int elementNum, uint8_t* sourceBuf, int start, i
     setRef(elementNum, sourceBuf, start, length);
 }
 
+void BinaryColumnVector::setVal(int elemnetNum, uint8_t* sourceBuf)
+{
+    setVal(elemnetNum, sourceBuf, 0, buffer_size);
+}
 
 void BinaryColumnVector::print(int rowCount) {
 	throw InvalidArgumentException("not support print binarycolumnvector.");
