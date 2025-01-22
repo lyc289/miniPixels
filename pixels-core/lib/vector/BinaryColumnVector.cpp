@@ -69,6 +69,14 @@ void BinaryColumnVector::add(std::string &value) {
     delete[] buffer;
 }
 
+void BinaryColumnVector::add(uint8_t *v,int len) {
+    if(writeIndex>=length) 
+    {
+        ensureSize(writeIndex*2,true);
+    }
+    setVal(writeIndex++,v,0,len);
+}
+
 void BinaryColumnVector::ensureSize(uint64_t size, bool preserveData)
 {
     ColumnVector::ensureSize(size, preserveData);
@@ -92,13 +100,5 @@ void BinaryColumnVector::ensureSize(uint64_t size, bool preserveData)
         memoryUsage += (long)sizeof(uint32_t)*size*2;
         resize(size);
     }
-}
-
-void BinaryColumnVector::add(uint8_t *v,int len) {
-    if(writeIndex>=length) 
-    {
-        ensureSize(writeIndex*2,true);
-    }
-    setVal(writeIndex++,v,0,len);
 }
 

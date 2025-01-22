@@ -73,3 +73,6 @@ public:
     void ensureSize(uint64_t size, bool preserveData) override;
 };
 #endif //PIXELS_BINARYCOLUMNVECTOR_H
+
+
+
